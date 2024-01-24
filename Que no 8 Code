@@ -1,0 +1,64 @@
+package Student_Rating;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+public class topstudentfinder {
+	 public static void main(String[] args) {
+	        List<Map<String, Object>> studentsData = generateStudentData(20);
+
+	        List<Map<String, Object>> topFiveStudents = findtopFiveStudents(studentsData);
+
+	        // Print the top five students
+	        for (int i = 0; i < topFiveStudents.size(); i++) {
+	            Map<String, Object> student = topFiveStudents.get(i);
+	            System.out.println("Top " + (i + 1) + ": " + student.get("Name") +
+	                    " - Total Marks: " + calculateTotalMarks(student));
+	        }
+	    }
+
+	 private static List<Map<String, Object>> findtopFiveStudents(List<Map<String, Object>> studentsData) {
+		return studentsData;
+		
+	}
+
+	private static List<Map<String, Object>> generateStudentData(int numberOfStudents) {
+	        List<Map<String, Object>> studentsData = new ArrayList<>();
+	        Random random = new Random();
+
+	        for (int i = 1; i <=5; i++) {
+	            Map<String, Object> studentData = new HashMap<>();
+	            studentData.put("Name", "Student" + i);
+
+	            String[] subjects = {"English", "Hindi", "Math1", "Math2", "science"};
+	            
+	            for (String subject : subjects) {
+	                int totalMarks = random.nextInt(31) + 70; // Total marks ranging from 70 to 100
+	                int marksScored = random.nextInt(totalMarks + 1); // Marks scored ranging from 0 to totalMarks
+	                Map<String, Integer> subjectData = new HashMap<>();
+	                subjectData.put("Total Marks", totalMarks);
+	                subjectData.put("Marks Scored", marksScored);
+	                studentData.put(subject, subjectData);
+	            }
+
+	            studentsData.add(studentData);
+	        }
+
+	        return studentsData;
+	    }
+
+	    // Function to calculate total marks for a student
+	    public static int calculateTotalMarks(Map<String, Object> student) {
+	        int totalMarks = 0;
+
+	        for (Object subjectData : student.values()) {
+	            if (subjectData instanceof Map) {
+	                totalMarks += ((Map<String, Integer>) subjectData).get("Marks Scored");
+	            }
+	        }
+
+	        return totalMarks;
+	    }}
+
